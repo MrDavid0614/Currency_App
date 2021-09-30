@@ -1,20 +1,26 @@
 <template>
   <div class="exchanges-container">
-      <ol v-if="currencyRates.length">
-          <li 
+      <span v-if="isLoading">Loading...</span>
+      <ol v-else>
+          <ExchangeRate 
             v-for="(currencyRate, index) in currencyRates"
-            v-show="currentCurrency !== currencyRate.name"
             :key="index"
-            >
-                <span>{{ currencyRate.name }} : {{ currencyRate.value }}</span>
-            </li>
+            :currentCurrency="currentCurrency"
+            :currencyRate="currencyRate" 
+            />
       </ol>
   </div>
 </template>
 
 <script>
+import ExchangeRate from "./ExchangeRate.vue"
+
 export default {
     props: {
+        isLoading: {
+            type: Boolean,
+            required: true
+        },
         currentCurrency: {
             type: String,
             required: true
@@ -23,6 +29,9 @@ export default {
             type: Array,
             required: true
         }
+    },
+    components: {
+        ExchangeRate
     }
 }
 </script>
